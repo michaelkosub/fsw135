@@ -1,73 +1,82 @@
 const express = require('express')
-const issueRouter = express.Router()
-const Issue = require('../models/issue')
+const commentRouter = express.Router()
+const Comment = require('../models/comment.js')
 
-//Get All
 
-issueRouter.get('/', (req, res, next) => {
-  Issue.find((err, rockthevote) => {
+
+commentRouter.get('/', (req, res, next) => {
+  Comment.find( (err, comment) => {
     if(err){
       res.status(500)
       return next(err)
     }
-    return res.status(200).send(rockthevote)
+    return res.status(200).send(comment)
   })
 })
 
-//Get One
 
-issueRouter.get('/:issueId', (req, res, next) => {
-  Issue.findOne({_id: req.params.issueId}, (err, issue)=> {
-    if(err){
-      res.status(500)
-      return next(err)
-    }
-    return res.status(200).send(issue)
+commentRouter.get('/:issueId', (req, res, next) => {
+    Comment.find({issueId: req.params.issueId}, (err, comment) => {
+      if(err){
+        res.status(500)
+        return next(err)
+      }
+      return res.status(200).send(comment)
+    })
   })
-})
+  
+ 
+  commentRouter.get('/user', (req, res, next) => {
+      Comment.findOne({user: req.user._id}, (err, comment)=> {
+        if(err){
+          res.status(500)
+          return next(err)
+        }
+        return res.status(200).send(comment)
+      })
+  })
+  
 
-//Post
 
-issueRouter.post('/', (req, res, next)=> {
+commentRouter.post('/', (req, res, next)=> {
   req.body.user = req.user._id
-  const newIssue = new Issue(req.body)
-  newIssue.save((err, savedIssue) => {
+  const newComment = new Comment(req.body)
+  newComment.save((err, savedComment) => {
     if(err){
       res.status(500)
       return next(err)
     }
-    return res.status(201).send(savedIssue)
+    return res.status(201).send(savedComment)
   })
 })
 
-//Update
 
-issueRouter.put('/:issueId', (req, res, next)=>{
-  Issue.findOneAndUpdate(
-    {_id: req.params.issueId}, 
+commentRouter.put('/:commentId', (req, res, next)=>{
+  Comment.findOneAndUpdate(
+    {_id: req.params.commentId},
     req.body,
-    {new: true}, 
-    (err, updatedIssue) => {
+    {new: true},
+    (err, updatedComment)=> {
       if(err){
         res.status(500)
         return next(err)
       }
-      return res.status(200).send(updatedIssue)
+      return res.status(200).send(updatedComment)
   })
 })
 
-//Delete
-issueRouter.delete('/:issueId', (req, res, next)=> {
-  Issue.findOneAndDelete({_id: req.params.issueId}, (err, deletedItem) => {
+
+commentRouter.delete('/:commentId', (req, res, next)=> {
+  Comment.findOneAndDelete(
+    {_id: req.params.commentId},
+    (err, deletedItem)=>{
       if(err){
         res.status(500)
         return next(err)
       }
-      return res.status(200).send(`Successfully deleted ${deletedItem.topic} from the database!`)
+      return res.status(200).send(`Successfully deleted ${deletedItem.comment} from the database.`)
     }
   )
 })
 
-
-
-module.exports = issueRouter
+module.exports = commentRouter
