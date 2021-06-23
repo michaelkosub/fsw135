@@ -2,7 +2,6 @@ const express = require('express')
 const issueRouter = express.Router()
 const Issue = require('../models/issue')
 
-
 issueRouter.get('/', (req, res, next) => {
   Issue.find((err, rockthevote) => {
     if(err){
@@ -13,7 +12,6 @@ issueRouter.get('/', (req, res, next) => {
   })
 })
 
-
 issueRouter.get('/:issueId', (req, res, next) => {
   Issue.findOne({_id: req.params.issueId}, (err, issue)=> {
     if(err){
@@ -23,7 +21,6 @@ issueRouter.get('/:issueId', (req, res, next) => {
     return res.status(200).send(issue)
   })
 })
-
 
 issueRouter.post('/', (req, res, next)=> {
   req.body.user = req.user._id
@@ -37,7 +34,6 @@ issueRouter.post('/', (req, res, next)=> {
   })
 })
 
-
 issueRouter.put('/:issueId', (req, res, next)=>{
   Issue.findOneAndUpdate(
     {_id: req.params.issueId}, 
@@ -48,10 +44,9 @@ issueRouter.put('/:issueId', (req, res, next)=>{
         res.status(500)
         return next(err)
       }
-      return res.status(200).send(updatedIssue)
+      return res.status(201).send(updatedIssue)
   })
 })
-
 
 issueRouter.delete('/:issueId', (req, res, next)=> {
   Issue.findOneAndDelete({_id: req.params.issueId}, (err, deletedItem) => {
@@ -63,7 +58,5 @@ issueRouter.delete('/:issueId', (req, res, next)=> {
     }
   )
 })
-
-
 
 module.exports = issueRouter

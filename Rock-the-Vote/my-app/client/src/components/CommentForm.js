@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 const initInputs = {
-  comment: ""
+  comment: "",
 }
 
 export default function CommentForm(props){
@@ -27,10 +27,10 @@ export default function CommentForm(props){
     <form onSubmit={handleSubmit}>
       <input 
         type="text" 
-        name= "_id" 
+        name="comment" 
         value={comment} 
         onChange={handleChange} 
-        placeholder="Add a Comment"/>
+        placeholder="Comment"/>
       <button>Add Comment</button>
     </form>
   )

@@ -2,8 +2,6 @@ const express = require('express')
 const commentRouter = express.Router()
 const Comment = require('../models/comment.js')
 
-
-
 commentRouter.get('/', (req, res, next) => {
   Comment.find( (err, comment) => {
     if(err){
@@ -13,7 +11,6 @@ commentRouter.get('/', (req, res, next) => {
     return res.status(200).send(comment)
   })
 })
-
 
 commentRouter.get('/:issueId', (req, res, next) => {
     Comment.find({issueId: req.params.issueId}, (err, comment) => {
@@ -25,7 +22,6 @@ commentRouter.get('/:issueId', (req, res, next) => {
     })
   })
   
- 
   commentRouter.get('/user', (req, res, next) => {
       Comment.findOne({user: req.user._id}, (err, comment)=> {
         if(err){
@@ -36,8 +32,6 @@ commentRouter.get('/:issueId', (req, res, next) => {
       })
   })
   
-
-
 commentRouter.post('/', (req, res, next)=> {
   req.body.user = req.user._id
   const newComment = new Comment(req.body)
@@ -50,7 +44,6 @@ commentRouter.post('/', (req, res, next)=> {
   })
 })
 
-
 commentRouter.put('/:commentId', (req, res, next)=>{
   Comment.findOneAndUpdate(
     {_id: req.params.commentId},
@@ -61,10 +54,23 @@ commentRouter.put('/:commentId', (req, res, next)=>{
         res.status(500)
         return next(err)
       }
-      return res.status(200).send(updatedComment)
+      return res.status(201).send(updatedComment)
   })
 })
 
+commentRouter.put('/like/:commentId', (req, res, next)=>{
+    Comment.findOneAndUpdate(
+      {_id: req.params.commentId},
+      { $inc: { likes: 1 }},  
+      {new: true},
+      (err, updatedComment)=> {
+        if(err){
+          res.status(500)
+          return next(err)
+        }
+        return res.status(201).send(updatedComment)
+    })
+  })
 
 commentRouter.delete('/:commentId', (req, res, next)=> {
   Comment.findOneAndDelete(
