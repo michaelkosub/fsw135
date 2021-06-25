@@ -1,3 +1,11 @@
+body {
+  background-image: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YmFja2dyb3VuZHN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60");
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -8,16 +16,16 @@
     text-decoration: none;
   }
   
-  .app {
+  /* .app {
     background-color: rgba(238, 232, 232, 0.6);
-  }
+  } */
   
   .navbar {
     display: flex;
     justify-content: space-around;
     align-items: center;
     height: 40px;
-    background-color: rgba(255, 1, 1, 0.6);
+    background-color: rgba(1, 247, 255, 0.6);
   }
   
   .auth-container {
@@ -41,7 +49,7 @@
     border: 1px solid rgba(250, 3, 3, 0.6);
     padding: 20px;
     border-radius: 5px;
-    background-color: rgba(170, 170, 170, 0.705);
+    background-color: rgba(1, 247, 255, 0.6);
   
     display: flex;
     flex-direction: column;
@@ -86,7 +94,7 @@
     flex-direction: column;
     margin: 16px 0;
     border: 1px solid rgba(255, 1, 1, 0.6);
-    background-color:rgba(170, 170, 170, 0.705);
+    background-color:rgba(1, 247, 255, 0.6);
     padding: 16px;
     border-radius: 5px
   }
